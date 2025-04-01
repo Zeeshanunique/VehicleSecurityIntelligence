@@ -177,7 +177,7 @@ const ChartTooltipContent = React.forwardRef<
       <div
         ref={ref}
         className={cn(
-          "grid min-w-[8rem] items-start gap-1.5 rounded-lg border border-border/50 bg-background px-2.5 py-1.5 text-xs shadow-xl",
+          "grid min-w-[8rem] items-start gap-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-background px-2.5 py-1.5 text-xs shadow-xl",
           className
         )}
       >
@@ -360,4 +360,13 @@ export {
   ChartLegend,
   ChartLegendContent,
   ChartStyle,
+}
+
+// Simplified chart component
+export function ChartPlaceholder() {
+  return (
+    <div className="w-full h-64 rounded-md bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+      <p className="text-muted-foreground">Chart Component</p>
+    </div>
+  )
 }

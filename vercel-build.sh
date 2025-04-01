@@ -1,9 +1,21 @@
 #!/bin/bash
+# Install root dependencies
+npm install
+
+# Build client
+cd client
 npm install
 npm run build
-# Make sure the dist/public directory exists
-mkdir -p dist/public
-# If files aren't already in the expected location, copy them there
-if [ ! -f dist/public/index.html ] && [ -f dist/index.html ]; then
-  cp -R dist/* dist/public/
+cd ..
+
+# Build server
+npx esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+
+# Make sure output directories exist
+mkdir -p client/dist/public
+mkdir -p dist
+
+# Ensure files are in the right place
+if [ -d "dist/public" ] && [ ! -d "client/dist/public" ]; then
+  cp -R dist/public/* client/dist/public/
 fi 

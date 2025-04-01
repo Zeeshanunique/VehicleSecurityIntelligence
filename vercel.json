@@ -1,26 +1,18 @@
 {
   "version": 2,
-  "buildCommand": "sh ./vercel-build.sh",
+  "buildCommand": "npm run build",
   "outputDirectory": "client/dist",
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/node"
-    }
-  ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "dist/index.js"
+      "dest": "/dist/index.js"
     },
     {
       "src": "/(.*)",
-      "dest": "client/dist/$1"
+      "dest": "/$1"
     }
   ],
-  "build": {
-    "env": {
-      "NODE_ENV": "production"
-    }
+  "env": {
+    "NODE_ENV": "production"
   }
 } 

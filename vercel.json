@@ -9,7 +9,7 @@
       "src": "client/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "../dist/public",
+        "distDir": "dist",
         "buildCommand": "cd client && npm run build"
       }
     }
@@ -29,14 +29,14 @@
     },
     {
       "src": "/assets/(.*)",
-      "dest": "dist/public/assets/$1"
+      "dest": "dist/assets/$1"
     },
     {
       "handle": "filesystem"
     },
     {
       "src": "/(.*)",
-      "dest": "/dist/public/index.html"
+      "dest": "/dist/index.html"
     }
   ],
   "env": {

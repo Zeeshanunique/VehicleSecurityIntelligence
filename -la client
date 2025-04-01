@@ -1,0 +1,7 @@
+[33mcommit 30c94106040466aad96c39972ff6d3fed6788a78[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Zeeshanunique <zeeshanunique2619@email.com>
+Date:   Wed Apr 2 02:10:14 2025 +0530
+
+    Fix Tailwind CSS class issues in index.css
+
+M	client/src/index.css

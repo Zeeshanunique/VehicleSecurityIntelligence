@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
 import http from 'http';
+import { WebSocketServer } from 'ws';
 import registerRoutes from './routes';
 import { setupVite, log } from "./vite";
 
@@ -56,6 +57,50 @@ registerRoutes(app);
 
 // Create HTTP server
 const server = http.createServer(app);
+
+// Setup WebSocket server
+const wss = new WebSocketServer({ noServer: true });
+
+wss.on('connection', (ws) => {
+  console.log('WebSocket client connected');
+  
+  // Send an initial message
+  ws.send(JSON.stringify({ type: 'CONNECTED', data: { message: 'Connected to server' } }));
+  
+  // Handle incoming messages
+  ws.on('message', (message) => {
+    try {
+      console.log('Received WebSocket message:', message.toString());
+      const data = JSON.parse(message.toString());
+      
+      // Echo the message back to the client
+      ws.send(JSON.stringify({
+        type: 'RESPONSE',
+        data: {
+          received: data,
+          timestamp: new Date().toISOString()
+        }
+      }));
+    } catch (error) {
+      console.error('Error processing WebSocket message:', error);
+    }
+  });
+  
+  ws.on('close', () => {
+    console.log('WebSocket client disconnected');
+  });
+});
+
+// Handle WebSocket upgrade requests
+server.on('upgrade', (request, socket, head) => {
+  if (request.url === '/api/ws') {
+    wss.handleUpgrade(request, socket, head, (ws) => {
+      wss.emit('connection', ws, request);
+    });
+  } else {
+    socket.destroy();
+  }
+});
 
 // Setup Vite with both app and server
 setupVite(app, server);

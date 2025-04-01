@@ -3,6 +3,10 @@ import cors from 'cors';
 import session from 'express-session';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { login, requireAuth } from './auth';
+import MemoryStore from 'memorystore';
+
+// Create memory store for sessions
+const MemoryStoreClass = MemoryStore(session);
 
 // Mock data for the application
 const mockData = {
@@ -27,9 +31,11 @@ const mockData = {
 };
 
 export default function registerRoutes(app: express.Express) {
-  // CORS configuration
+  // CORS configuration - allow from any origin in production
   app.use(cors({
-    origin: ['http://localhost:5173', 'http://localhost:5174'],
+    origin: process.env.NODE_ENV === 'production' 
+      ? true 
+      : ['http://localhost:5173', 'http://localhost:5174'],
     credentials: true
   }));
 
@@ -38,34 +44,43 @@ export default function registerRoutes(app: express.Express) {
   
   // Session setup
   app.use(session({
+    store: new MemoryStoreClass({
+      checkPeriod: 86400000 // prune expired entries every 24h
+    }),
     secret: process.env.SESSION_SECRET || 'keyboard cat',
     resave: false,
     saveUninitialized: false,
     cookie: { 
       secure: process.env.NODE_ENV === 'production',
       httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000 // 24 hours
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
     }
   }));
 
   // Auth routes
   app.post('/api/auth/login', (req, res) => {
-    const { email, password } = req.body;
-    
-    if (!email || !password) {
-      return res.status(400).json({ message: 'Email and password are required' });
+    try {
+      const { email, password } = req.body;
+      
+      if (!email || !password) {
+        return res.status(400).json({ message: 'Email and password are required' });
+      }
+      
+      const user = login(email, password);
+      
+      if (!user) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+      
+      // Set user in session
+      req.session.user = user;
+      
+      res.status(200).json({ user });
+    } catch (error) {
+      console.error('Login error:', error);
+      res.status(500).json({ message: 'An error occurred during login' });
     }
-    
-    const user = login(email, password);
-    
-    if (!user) {
-      return res.status(401).json({ message: 'Invalid credentials' });
-    }
-    
-    // Set user in session
-    req.session.user = user;
-    
-    res.json({ user });
   });
   
   app.post('/api/auth/logout', (req, res) => {

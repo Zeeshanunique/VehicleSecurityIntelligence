@@ -11,6 +11,7 @@ import FacialRecognitionPage from "@/pages/facial-recognition/page";
 import AccidentDetectionPage from "@/pages/accident-detection/page";
 import ReportsHistoryPage from "@/pages/reports-history/page";
 import AdminPage from "@/pages/admin/page";
+import VehiclesPage from "@/pages/vehicles/page";
 
 export default function App() {
   return (
@@ -26,10 +27,7 @@ export default function App() {
             }
           >
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route 
-              path="/vehicles/*" 
-              element={<div>Vehicles Page - Implement Specific Routes</div>}
-            />
+            <Route path="/vehicles/*" element={<VehiclesPage />} />
             <Route path="/alerts" element={<AlertsPage />} />
             <Route path="/license-plate-scanner" element={<LicensePlateScannerPage />} />
             <Route path="/facial-recognition" element={<FacialRecognitionPage />} />

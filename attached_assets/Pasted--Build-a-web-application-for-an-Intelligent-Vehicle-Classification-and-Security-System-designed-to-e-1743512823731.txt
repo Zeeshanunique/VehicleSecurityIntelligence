@@ -1,0 +1,39 @@
+"Build a web application for an Intelligent Vehicle Classification and Security System designed to enhance law enforcement capabilities. The application should include:
+
+Real-time License Plate Recognition (LPR):
+Use YOLO and EasyOCR to detect and read vehicle license plates. Implement HSRP validation for fake or duplicate plate detection.
+
+Facial Recognition:
+Integrate DeepFace for recognizing wanted criminals, missing persons, or suspicious individuals using live CCTV feeds. Generate instant alerts if a match is found.
+
+Accident Detection and Emergency Response:
+Use AI-based models to detect accidents from CCTV footage or dashcam feeds. Send immediate emergency alerts and notify appropriate services.
+
+Vehicle Theft Detection:
+Automatically detect stolen vehicles based on a predefined database and send alerts to authorities.
+
+Traffic Violation Monitoring:
+Detect violations like speeding, red-light jumping, and other traffic rule infractions. Notify authorities in real-time.
+
+Centralized Dashboard:
+Build a secure, cloud-based dashboard for law enforcement that integrates all the system features in one place. Provide live feeds, incident alerts, and vehicle/person reports.
+
+Google Maps Integration:
+Enable a map view to visualize crime-prone areas, historical vehicle crime data, and real-time locations of incidents.
+
+User Authentication and Role-Based Access:
+Implement a secure login system with role-based access (e.g., police, traffic control, admin) to ensure only authorized users can access sensitive data.
+
+Tech Stack:
+
+Frontend: React.js for the user interface
+
+Backend: FastAPI/Django REST for fast and efficient API processing
+
+Database: PostgreSQL/Firebase for storing and managing data securely
+
+AI Models: YOLO for object detection (LPR, Accident Detection), DeepFace for facial recognition
+
+Cloud Hosting: AWS / Google Cloud for scalable, secure hosting
+
+The application must be optimized for a web environment, focusing on efficiency, security, and user experience. Implement a minimal camera setup for demonstration, where one camera can handle all tasks (LPR, facial recognition, accident detection)."

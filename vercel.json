@@ -29,14 +29,18 @@
     },
     {
       "src": "/assets/(.*)",
-      "dest": "dist/assets/$1"
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "/(.*\\.[a-z0-9]+$)",
+      "dest": "/$1"
     },
     {
       "handle": "filesystem"
     },
     {
       "src": "/(.*)",
-      "dest": "/dist/index.html"
+      "dest": "/index.html"
     }
   ],
   "env": {
